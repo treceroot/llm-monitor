@@ -1,0 +1,140 @@
+/* llm-monitor — refined dashboard styling.
+   ---------------------------------------------------------------------------
+   Colour system (all resolved from the active theme, e.g. Omarchy Gruvbox):
+     $surface / $panel   surfaces: header, footer, cards
+     $border-blurred     hairline card borders
+     primary             structure: section titles, bars, prefill chart
+     accent              live values, highlights, decode chart
+     text / text-muted   values and labels
+   Spacing rhythm:
+     1 row gap between boxes, 1 column of padding inside every card.
+   Sizing:
+     every box height is computed at runtime by the layout engine
+     (llm_monitor/layout.py) so the dashboard always fits the terminal.
+   --------------------------------------------------------------------------- */
+
+/* --- top bar: status + model identity, closed with a hairline rule ----- */
+
+#header {
+    dock: top;
+    height: 2;
+    background: $surface;
+    padding: 0 1;
+    border-bottom: solid $border-blurred;
+}
+
+/* --- bottom bar: key hints ---------------------------------------------- */
+
+#footer {
+    dock: bottom;
+    height: 1;
+    background: $surface;
+    padding: 0 1;
+}
+
+/* --- main body: the only scrollable area ------------------------------- */
+
+#body {
+    height: 1fr;
+    padding: 0 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* hardware: CPU + RAM on top, GPUs below                                  */
+/* ---------------------------------------------------------------------- */
+
+#sys-section {
+    layout: grid;
+    grid-size: 2;
+    grid-gutter: 1;
+    height: 9;
+    margin-top: 1;
+}
+
+#sys-section > * {
+    border: round $border-blurred;
+    background: $panel;
+    padding: 0 1;
+}
+
+#gpu-panel {
+    height: 12;
+    border: round $border-blurred;
+    background: $panel;
+    padding: 0 1;
+    margin-top: 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* llama.cpp: compact charts, then one box with every metric               */
+/* ---------------------------------------------------------------------- */
+
+#llm-section {
+    height: 20;
+    margin-top: 1;
+}
+
+/* the two chart cards side by side */
+.chart-grid {
+    layout: grid;
+    grid-size: 2;
+    grid-gutter: 1;
+    height: 5;
+}
+
+.chart-card {
+    border: round $border-blurred;
+    background: $panel;
+    padding: 0 1;
+    height: auto;
+}
+
+/* label and value live on the same line, full width */
+.chart-value {
+    height: 1;
+    width: 1fr;
+}
+
+/* sparklines — height is set at runtime (1 or 2 rows) */
+#decode-chart,
+#prefill-chart {
+    height: 2;
+    width: 1fr;
+}
+
+/* --- the single box with every llama.cpp metric -------------------------- */
+
+.combined-card {
+    border: round $border-blurred;
+    background: $panel;
+    padding: 0 1;
+    height: auto;
+    margin-top: 1;
+}
+
+#metrics-panel {
+    height: auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* internals                                                              */
+/* ---------------------------------------------------------------------- */
+
+/* inner renderables size to their content */
+.panel-head,
+.panel-body,
+.proc-list {
+    height: auto;
+    width: auto;
+}
+
+.panel-head {
+    min-width: 100%;
+}
+
+/* thin, subtle scrollbars: a hairline thumb on the surface, no loud bar */
+* {
+    scrollbar-size: 1 1;
+    scrollbar-color: $border-blurred;
+    scrollbar-background: $surface;
+}
